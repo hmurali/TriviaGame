@@ -170,4 +170,16 @@ var trivia = {
             $('#results').html('<h3>Incorret Answer! Better luck next time! The correct answer is: ' + currentCorrectAnswer + '</h3>');
         }
     },
+    // method to remove previous question results and options
+    guessResult: function(){
+        //increment to next question set
+        trivia.currentSet++;
+
+        // remove the options and results
+        $('.option').remove();
+        $('#results h3').remove();
+
+        // begin next question
+        trivia.nextQuestion();
+    }
 }
