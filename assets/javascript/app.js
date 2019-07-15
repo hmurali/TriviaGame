@@ -1,7 +1,7 @@
 $(document).ready(function(){
     // event listeners
     $("#time-remaining").hide();
-    $("#start-life-with-derek-trivia").on('click', lwdTrivia.startLWDTriviaGame);
+    $("#life-with-derek-start-trivia").on('click', lwdTrivia.startLWDTriviaGame);
     $(document).on('click', '.option', lwdTrivia.evaluateGuess);
 })
 
@@ -77,7 +77,7 @@ var lwdTrivia = {
         $('#life-with-derek-trivia-timer').text(lwdTrivia.lwdTimer);
 
         // remove start button
-        $('#start-life-with-derek-trivia').hide();
+        $('#life-with-derek-start-trivia').hide();
 
         $('#time-remaining').show();
 
@@ -97,7 +97,7 @@ var lwdTrivia = {
         }
 
         // gets all questions then indexes the current questions
-        var questionContent = Object.value(lwdTrivia.lwdQuestions)[lwdTrivia.lwdCurrentSet];
+        var questionContent = Object.values(lwdTrivia.lwdQuestions)[lwdTrivia.lwdCurrentSet];
         $('#life-with-derek-trivia-question').text(questionContent);
 
         // an array of all the user options for the current question
@@ -139,7 +139,7 @@ var lwdTrivia = {
             $('#life-with-derek-trivia-game').hide();
 
             // show start button to begin a new game
-            $('#start-life-with-derek-trivia').show();
+            $('#life-with-derek-start-trivia').show();
         }
     },
     // method to evaluate the player's answer to a question
@@ -155,7 +155,7 @@ var lwdTrivia = {
             // turn button green for correct
             $(this).addClass('btn-success').removeClass('btn-info');
 
-            lwdTrivia.correct++;
+            lwdTrivia.numCorrect++;
             clearInterval(lwdTrivia.lwdTimerId);
             resultId = setTimeout(lwdTrivia.guessResult, 1000);
             $('#life-with-derek-trivia-game-results').html('<h3>Correct Answer!</h3>');

@@ -1,0 +1,15 @@
+body {
+    background-image: url('../images/life-with-derek.jpg');
+    text-align: center;
+}
+
+div.container {
+    background-color: lightgreen;
+}
+div.container div.header.text-center.clearfix h1.text-muted {
+    color: red;
+}
+
+.option {
+    margin: 15px;
+}
