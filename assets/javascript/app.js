@@ -1,7 +1,7 @@
 $(document).ready(function(){
     // event listeners
     $("#time-remaining").hide();
-    $("#start").on('click', lwdTrivia.startLWDTriviaGame);
+    $("#start-life-with-derek-trivia").on('click', lwdTrivia.startLWDTriviaGame);
     $(document).on('click', '.option', lwdTrivia.evaluateGuess);
 })
 
@@ -77,7 +77,7 @@ var lwdTrivia = {
         $('#timer').text(lwdTrivia.lwdTimer);
 
         // remove start button
-        $('#start').hide();
+        $('#start-life-with-derek-trivia').hide();
 
         $('#time-remaining').show();
 
@@ -139,7 +139,7 @@ var lwdTrivia = {
             $('#life-with-derek-trivia-game').hide();
 
             // show start button to begin a new game
-            $('#start').show();
+            $('#start-life-with-derek-trivia').show();
         }
     },
     // method to evaluate the player's answer to a question
