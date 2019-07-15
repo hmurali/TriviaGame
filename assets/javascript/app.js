@@ -142,4 +142,32 @@ var trivia = {
             $('#start').show();
         }
     },
+    // method to evaluate the player's answer to a question
+    guessChecker: function() {
+        // timer ID for gameResult setTimeout
+        var resultId;
+
+        // the correct answer to the current question being asked
+        var currentCorrectAnswer = Object.values(trivia.answers)[trivia.currentSet];
+
+        // if the text of the option picked matches the correct answer of the current question, increment correct
+        if($(this).text() === currentCorrectAnswer){
+            // turn button green for correct
+            $(this).addClass('btn-sucess').removeClass('btn-info');
+
+            trivia.correct++;
+            clearInterval(trivia.timerId);
+            resultId = setTimeout(trivia.guessResult, 1000);
+            $('#results').html('<h3>Correct Answer!</h3>');
+        }
+        // else th user picked the wrong option, increment incorrect
+        else{
+            // turn button red for incorrect
+            $(this).addClass('btn-danger').removeClass('btn-info');
+
+            trivia.incorrect++;
+            resultId = setTimeout(trivia.guessResult, 1000);
+            $('#results').html('<h3>Incorret Answer! Better luck next time! The correct answer is: ' + currentCorrectAnswer + '</h3>');
+        }
+    },
 }
