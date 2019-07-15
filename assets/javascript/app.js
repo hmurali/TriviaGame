@@ -97,8 +97,8 @@ var trivia = {
         }
 
         // gets all questions then indexes the current questions
-        var questionsContent = Object.value(trivia.questions)[trivia.currentSet];
-        $('#question').text(questionContent);
+        var questionContent = Object.value(trivia.questions)[trivia.currentSet];
+        $('#life-with-derek-trivia-question').text(questionContent);
 
         // an array of all the user options for the current question
         var questionOptions = Object.values(trivia.options)[trivia.currentSet];
@@ -124,12 +124,12 @@ var trivia = {
             trivia.result = false;
             clearInterval(trivaia.timerId);
             resultId = setTimeout(trivia.guessResult, 1000);
-            $('#results').html('<h3>Out of time! The answer was ' + Object.values(trivia.answers)[trivia.currentSet] + '</h3>');
+            $('#life-with-derek-trivia-game-results').html('<h3>Out of time! The answer was ' + Object.values(trivia.answers)[trivia.currentSet] + '</h3>');
         }
         // if all the questions have been shown end the game, show results
         else if(trivia.currentset === Object.keys(trivia.questions).length){
             // adds results of game (correct, incorrect, unanswered) to the page
-            $('#results').html('<h3>Thank you for playing!</h3>'+
+            $('#life-with-derek-trivia-game-results').html('<h3>Thank you for playing!</h3>'+
             '<p>Correct: '+ trivia.correct + '</p>'+
             '<p>Incorrect: '+ trivia.incorrect + '</p>'+
             '<p>Unanswered: '+ trivia.unanswered + '</p>'+
@@ -153,12 +153,12 @@ var trivia = {
         // if the text of the option picked matches the correct answer of the current question, increment correct
         if($(this).text() === currentCorrectAnswer){
             // turn button green for correct
-            $(this).addClass('btn-sucess').removeClass('btn-info');
+            $(this).addClass('btn-success').removeClass('btn-info');
 
             trivia.correct++;
             clearInterval(trivia.timerId);
             resultId = setTimeout(trivia.guessResult, 1000);
-            $('#results').html('<h3>Correct Answer!</h3>');
+            $('#life-with-derek-trivia-game-results').html('<h3>Correct Answer!</h3>');
         }
         // else th user picked the wrong option, increment incorrect
         else{
@@ -167,7 +167,7 @@ var trivia = {
 
             trivia.incorrect++;
             resultId = setTimeout(trivia.guessResult, 1000);
-            $('#results').html('<h3>Incorret Answer! Better luck next time! The correct answer is: ' + currentCorrectAnswer + '</h3>');
+            $('#life-with-derek-trivia-game-results').html('<h3>Incorret Answer! Better luck next time! The correct answer is: ' + currentCorrectAnswer + '</h3>');
         }
     },
     // method to remove previous question results and options
@@ -177,7 +177,7 @@ var trivia = {
 
         // remove the options and results
         $('.option').remove();
-        $('#results h3').remove();
+        $('#life-with-derek-trivia-game-results h3').remove();
 
         // begin next question
         trivia.nextQuestion();
