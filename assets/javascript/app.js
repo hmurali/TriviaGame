@@ -1,21 +1,21 @@
 $(document).ready(function(){
     // event listeners
     $("#time-remaining").hide();
-    $("#start").on('click', trivia.startGame);
-    $(document).on('click', '.option', trivia.guessChecker);
+    $("#start").on('click', lwdTrivia.startLWDTriviaGame);
+    $(document).on('click', '.option', lwdTrivia.evaluateGuess);
 })
 
-var trivia = {
+var lwdTrivia = {
     // trivia properties
-    correct: 0,
-    incorrect: 0,
-    unanswered: 0,
-    currentSet: 0,
-    timer: 60,
-    timerOn: false,
-    timerId: '',
+    numCorrect: 0,
+    numIncorrect: 0,
+    numUnanswered: 0,
+    lwdCurrentSet: 0,
+    lwdTimer: 60,
+    lwdTimerOn: false,
+    lwdTimerId: '',
     // questions options and answers data
-    questions: {
+    lwdQuestions: {
         q1: "Where does the family live on the show?",
         q2: "Where do the Venturi-McDonald live?",
         q3: "How many children are in the combined family?",
@@ -29,7 +29,7 @@ var trivia = {
         q11: "'The Fall'- At the end of this episode, everyone finds out Derek, too, had a nickname once! What is it?",
         q12: "Where do Edwin and Lizzie always meet when they want to talk, usually about their oldest siblings?"
     },
-    options: {
+    lwdOptions: {
         q1: ["Toronto, Ontario, Canada", "London, Ontario, Canada", "Brampton, Ontario, Canada", "Quebec City, Quebec, Canada"],
         q2: ["Ontario, Canada", "Quebec, Canada", "Alberta, Canada", "British Columbia, Canada"],
         q3: ["2", "3", "4", "5"],
@@ -43,7 +43,7 @@ var trivia = {
         q11: ["Derekus", "Dereka", "Dereki", "Derrie"],
         q12: ["Casey's room", "basement", "Derek's room", "in the game closet"]
     },
-    answers: {
+    lwdAnswers: {
         q1: "London, Ontario, Canada",
         q2: "Ontario, Canada",
         q3: "5",
@@ -59,13 +59,13 @@ var trivia = {
     },
     // trivia methods
     //method to initialize game
-    startGame: function(){
+    startLWDTriviaGame: function(){
         // resetting game results
-        trivia.currentSet = 0;
-        trivia.correct = 0;
-        trivia.incorrect = 0;
-        trivia.unanswered = 0;
-        clearInterval(trivia.timerId);
+        lwdTrivia.lwdCurrentSet = 0;
+        lwdTrivia.numCorrect = 0;
+        lwdTrivia.numIncorrect = 0;
+        lwdTrivia.numUnanswered = 0;
+        clearInterval(lwdTrivia.lwdTimerId);
 
         // show game section
         $('#life-with-derek-trivia-game').show();
@@ -74,7 +74,7 @@ var trivia = {
         $('#life-with-derek-trivia-game-results').html('');
 
         // show timer
-        $('#timer').text(trivia.timer);
+        $('#timer').text(lwdTrivia.lwdTimer);
 
         // remove start button
         $('#start').hide();
@@ -82,26 +82,26 @@ var trivia = {
         $('#time-remaining').show();
 
         // ask first question
-        trivia.nextQuestion();
+        lwdTrivia.nextQuestion();
     },
     // method to loop through and display questions and options
     nextQuestion: function(){
         //set timer to 10 seconds for each question
-        trivia.timer = 10;
+        lwdTrivia.lwdTimer = 10;
         $('#timer').removeClass('last-seconds');
-        $('#timer').text(trivia.timer);
+        $('#timer').text(lwdTrivia.lwdTimer);
 
         // to prevent timer speed up
-        if(!trivia.timerOn){
-            trivia.timerId = setInterval(trivia.timerRunning, 1000);
+        if(!lwdTrivia.lwdTimerOn){
+            lwdTrivia.lwdTimerId = setInterval(lwdTrivia.timerRunning, 1000);
         }
 
         // gets all questions then indexes the current questions
-        var questionContent = Object.value(trivia.questions)[trivia.currentSet];
+        var questionContent = Object.value(lwdTrivia.lwdQuestions)[lwdTrivia.lwdCurrentSet];
         $('#life-with-derek-trivia-question').text(questionContent);
 
         // an array of all the user options for the current question
-        var questionOptions = Object.values(trivia.options)[trivia.currentSet];
+        var questionOptions = Object.values(lwdTrivia.lwdOptions)[lwdTrivia.lwdCurrentSet];
 
         // creates all the trivia guess options in the html
         $.each(questionOptions, function(index, key){
@@ -111,28 +111,28 @@ var trivia = {
     // method to decrement counter and count unanswered if timer runs out
     timerRunning: function(){
         // if timer still has time left and there are still questions left to ask
-        if(trivia.timer > -1 && trivia.currentSet < Object.keys(trivia.questions).length){
-            $('#timer').text(trivia.timer);
-            trivia.timer--;
-            if(trivia.timer === 4){
+        if(lwdTrivia.lwdTimer > -1 && lwdTrivia.lwdCurrentSet < Object.keys(lwdTrivia.lwdQuestions).length){
+            $('#timer').text(lwdTrivia.lwdTimer);
+            lwdTrivia.lwdTimer--;
+            if(lwdTrivia.lwdTimer === 4){
                 $('#timer').addClass('last-seconds');
             }
         }
         // the time has run out and incrememt unanswered, run result
-        else if(trivia.timer === -1){
-            trivia.unanswered++;
-            trivia.result = false;
-            clearInterval(trivaia.timerId);
-            resultId = setTimeout(trivia.guessResult, 1000);
-            $('#life-with-derek-trivia-game-results').html('<h3>Out of time! The answer was ' + Object.values(trivia.answers)[trivia.currentSet] + '</h3>');
+        else if(lwdTrivia.lwdTimer === -1){
+            lwdTrivia.numUnanswered++;
+            lwdTrivia.result = false;
+            clearInterval(lwdTrivia.lwdTimerId);
+            resultId = setTimeout(lwdTrivia.guessResult, 1000);
+            $('#life-with-derek-trivia-game-results').html('<h3>Out of time! The answer was ' + Object.values(lwdTrivia.lwdAnswers)[lwdTrivia.lwdCurrentSet] + '</h3>');
         }
         // if all the questions have been shown end the game, show results
-        else if(trivia.currentset === Object.keys(trivia.questions).length){
+        else if(lwdTrivia.lwdCurrentSet === Object.keys(lwdTrivia.lwdQuestions).length){
             // adds results of game (correct, incorrect, unanswered) to the page
             $('#life-with-derek-trivia-game-results').html('<h3>Thank you for playing!</h3>'+
-            '<p>Correct: '+ trivia.correct + '</p>'+
-            '<p>Incorrect: '+ trivia.incorrect + '</p>'+
-            '<p>Unanswered: '+ trivia.unanswered + '</p>'+
+            '<p>Correct: '+ lwdTrivia.numCorrect + '</p>'+
+            '<p>Incorrect: '+ lwdTrivia.numIncorrect + '</p>'+
+            '<p>Unanswered: '+ lwdTrivia.numUnanswered + '</p>'+
             '<p>Please play again!</p>');
 
             // hide game section
@@ -143,21 +143,21 @@ var trivia = {
         }
     },
     // method to evaluate the player's answer to a question
-    guessChecker: function() {
+    evaluateGuess: function() {
         // timer ID for gameResult setTimeout
         var resultId;
 
         // the correct answer to the current question being asked
-        var currentCorrectAnswer = Object.values(trivia.answers)[trivia.currentSet];
+        var currentCorrectAnswer = Object.values(lwdTrivia.lwdAnswers)[lwdTrivia.lwdCurrentSet];
 
         // if the text of the option picked matches the correct answer of the current question, increment correct
         if($(this).text() === currentCorrectAnswer){
             // turn button green for correct
             $(this).addClass('btn-success').removeClass('btn-info');
 
-            trivia.correct++;
-            clearInterval(trivia.timerId);
-            resultId = setTimeout(trivia.guessResult, 1000);
+            lwdTrivia.correct++;
+            clearInterval(lwdTrivia.lwdTimerId);
+            resultId = setTimeout(lwdTrivia.guessResult, 1000);
             $('#life-with-derek-trivia-game-results').html('<h3>Correct Answer!</h3>');
         }
         // else th user picked the wrong option, increment incorrect
@@ -165,21 +165,21 @@ var trivia = {
             // turn button red for incorrect
             $(this).addClass('btn-danger').removeClass('btn-info');
 
-            trivia.incorrect++;
-            resultId = setTimeout(trivia.guessResult, 1000);
+            lwdTrivia.numIncorrect++;
+            resultId = setTimeout(lwdTrivia.guessResult, 1000);
             $('#life-with-derek-trivia-game-results').html('<h3>Incorret Answer! Better luck next time! The correct answer is: ' + currentCorrectAnswer + '</h3>');
         }
     },
     // method to remove previous question results and options
     guessResult: function(){
         //increment to next question set
-        trivia.currentSet++;
+        lwdTrivia.lwdCurrentSet++;
 
         // remove the options and results
         $('.option').remove();
         $('#life-with-derek-trivia-game-results h3').remove();
 
         // begin next question
-        trivia.nextQuestion();
+        lwdTrivia.nextQuestion();
     }
 }
