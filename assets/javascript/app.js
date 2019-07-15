@@ -108,4 +108,38 @@ var trivia = {
             $('#options').append($('<button class="option btn btn-info btn-lg">'+key+'</button>'));
         })
     },
+    // method to decrement counter and count unanswered if timer runs out
+    timerRunning: function(){
+        // if timer still has time left and there are still questions left to ask
+        if(trivia.timer > -1 && trivia.currentSet < Object.keys(trivia.questions).length){
+            $('#timer').text(trivia.timer);
+            trivia.timer--;
+            if(trivia.timer === 4){
+                $('#timer').addClass('last-seconds');
+            }
+        }
+        // the time has run out and incrememt unanswered, run result
+        else if(trivia.timer === -1){
+            trivia.unanswered++;
+            trivia.result = false;
+            clearInterval(trivaia.timerId);
+            resultId = setTimeout(trivia.guessResult, 1000);
+            $('#results').html('<h3>Out of time! The answer was ' + Object.values(trivia.answers)[trivia.currentSet] + '</h3>');
+        }
+        // if all the questions have been shown end the game, show results
+        else if(trivia.currentset === Object.keys(trivia.questions).length){
+            // adds results of game (correct, incorrect, unanswered) to the page
+            $('#results').html('<h3>Thank you for playing!</h3>'+
+            '<p>Correct: '+ trivia.correct + '</p>'+
+            '<p>Incorrect: '+ trivia.incorrect + '</p>'+
+            '<p>Unanswered: '+ trivia.unanswered + '</p>'+
+            '<p>Please play again!</p>');
+
+            // hide game section
+            $('#life-with-derek-trivia-game').hide();
+
+            // show start button to begin a new game
+            $('#start').show();
+        }
+    },
 }
