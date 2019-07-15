@@ -6,6 +6,7 @@ $(document).ready(function(){
 })
 
 var trivia = {
+    // trivia properties
     correct: 0,
     incorrect: 0,
     unanswered: 0,
@@ -56,5 +57,31 @@ var trivia = {
         q11: "Dereka",
         q12: "in the game closet"
     },
+    // trivia methods
+    //method to initialize game
+    startGame: function(){
+        // resetting game results
+        trivia.currentSet = 0;
+        trivia.correct = 0;
+        trivia.incorrect = 0;
+        trivia.unanswered = 0;
+        clearInterval(trivia.timerId);
 
+        // show game section
+        $('#life-with-derek-trivia-game').show();
+
+        // empty last results
+        $('#life-with-derek-trivia-game-results').html('');
+
+        // show timer
+        $('#timer').text(trivia.timer);
+
+        // remove start button
+        $('#start').hide();
+
+        $('#time-remaining').show();
+
+        // ask first question
+        trivia.nextQuestion();
+    },
 }
