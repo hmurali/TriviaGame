@@ -74,7 +74,7 @@ var lwdTrivia = {
         $('#life-with-derek-trivia-game-results').html('');
 
         // show timer
-        $('#timer').text(lwdTrivia.lwdTimer);
+        $('#life-with-derek-trivia-timer').text(lwdTrivia.lwdTimer);
 
         // remove start button
         $('#start-life-with-derek-trivia').hide();
@@ -88,8 +88,8 @@ var lwdTrivia = {
     nextQuestion: function(){
         //set timer to 10 seconds for each question
         lwdTrivia.lwdTimer = 10;
-        $('#timer').removeClass('last-seconds');
-        $('#timer').text(lwdTrivia.lwdTimer);
+        $('#life-with-derek-trivia-timer').removeClass('last-seconds');
+        $('#life-with-derek-trivia-timer').text(lwdTrivia.lwdTimer);
 
         // to prevent timer speed up
         if(!lwdTrivia.lwdTimerOn){
@@ -105,17 +105,17 @@ var lwdTrivia = {
 
         // creates all the trivia guess options in the html
         $.each(questionOptions, function(index, key){
-            $('#options').append($('<button class="option btn btn-info btn-lg">'+key+'</button>'));
+            $('#life-with-derek-trivia-options').append($('<button class="option btn btn-info btn-lg">'+key+'</button>'));
         })
     },
     // method to decrement counter and count unanswered if timer runs out
     timerRunning: function(){
         // if timer still has time left and there are still questions left to ask
         if(lwdTrivia.lwdTimer > -1 && lwdTrivia.lwdCurrentSet < Object.keys(lwdTrivia.lwdQuestions).length){
-            $('#timer').text(lwdTrivia.lwdTimer);
+            $('#life-with-derek-trivia-timer').text(lwdTrivia.lwdTimer);
             lwdTrivia.lwdTimer--;
             if(lwdTrivia.lwdTimer === 4){
-                $('#timer').addClass('last-seconds');
+                $('#life-with-derek-trivia-timer').addClass('last-seconds');
             }
         }
         // the time has run out and incrememt unanswered, run result
